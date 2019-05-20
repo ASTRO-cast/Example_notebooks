@@ -51,12 +51,14 @@ def plot_vci_fc(X,y,Forecast,Sigma,index):
 
     plt.figure(figsize=(17, 7))
     plt.plot(X,y, linestyle = 'solid', lw = 3, color = 'blue',label = 'data')
-    plt.errorbar(x1, Forecast, yerr=Sigma,color='red',lw=3,label='forecast')
+    plt.errorbar(x1, Forecast, yerr=Sigma,color='red',lw=3,label='Forecast')
+    #plt.fill_between(x1,Forecast-Sigma,Forecast+Sigma, \
+    #        color = 'red', label = 'Forecast')
     plt.xlabel('Date', size = 20)
     plt.ylabel(index, size = 20)
     plt.tick_params(axis='both', which='major', labelsize=15)
     x_ax = [6575,6665,6756,6848,6940,7030]
-    plt.xticks(x_ax, ('1/1/2018','4/1/2018','7/1/2018','10/1/2018','1/1/2019','1/4/2019'), size = 18)
+    plt.xticks(x_ax, ('1/1/2018','1/4/2018','1/7/2018','1/10/2018','1/1/2019','1/4/2019'), size = 18)
     plt.xlim(6575,7100)
     plt.ylim(0,100)
 

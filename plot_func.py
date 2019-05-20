@@ -21,7 +21,7 @@ def load(name):
 def plot_vci(X,y):
     plt.figure(figsize=(17, 7))
     plt.plot(X,y, linestyle = 'solid', lw = 3, color = 'blue')
-    plt.xlabel('Days since 1/1/2000', size = 20)
+    plt.xlabel('Date', size = 20)
     plt.ylabel('weekly VCI', size = 20)
     plt.tick_params(axis='both', which='major', labelsize=15)
     x_ax = [5114,5479,5844,6210,6575,6940]
@@ -79,14 +79,21 @@ def run_GP(X,y):
 def plot_vci_fc(Xtest_use,mean,X,y):
 
     plt.figure(figsize=(17, 7))
-    plt.plot(Xtest_use,mean, linestyle = 'solid', lw = 3, color = 'red', label = 'GP prediction')
+    use = Xtest_use >= np.max(X)
+    err = np.std(y)
+    eb = err*np.array([0,0.5*0.46,0.46,0.46/2+0.66/2,0.66,0.66/2+0.81/2,0.81,0.91,1.0])
+    #plt.fill_between(Xtest_use[use],mean[use]-eb,mean[use]+eb, \
+    #        color = 'red', label = 'GP prediction')
+    plt.errorbar(Xtest_use[use], mean[use], yerr=eb,color='red',lw=3,label='Forecast')
+
+    
     plt.plot(X,y, linestyle = 'solid', lw = 3, color = 'blue',label = 'Landsat VCI')
-    plt.xlabel('Days since 1/1/2000', size = 20)
+    plt.xlabel('Date', size = 20)
     plt.ylabel('weekly VCI', size = 20)
     plt.tick_params(axis='both', which='major', labelsize=15)
-    x_ax = [5114,5479,5844,6210,6575,6940]
-    plt.xticks(x_ax, ('1/1/2014','1/1/2015', '1/1/2016', '1/1/2017','1/1/2018','1/1/2019'), size = 18)
-    plt.xlim(5000,7020)
+    x_ax = [6575,6665,6756,6848,6940,7030]
+    plt.xticks(x_ax, ('1/1/2018','1/4/2018','1/7/2018','1/10/2018','1/1/2019','1/4/2019'), size = 18)
+    plt.xlim(6575,7100)
     plt.ylim(0,100)
 
     plt.plot([0,7020],[50,50],color = 'black', lw = 3)
@@ -111,19 +118,25 @@ def plot_vci_fc3M(Xtest_use,mean,X,y):
         y_new[i] = np.mean(y[i-12:i]) 
         
     plt.figure(figsize=(17, 7))
-    plt.plot(Xtest_use,yf_new, linestyle = 'solid', lw = 3, color = 'red',label = 'GP prediction')
+    use = Xtest_use >= np.max(X)
+    err = np.std(y_new)
+    eb = err*np.array([0,0.5*0.08,0.08,0.08/2+0.2/2,0.2,0.2/2+0.35/2,0.35,0.42,0.49])
+    #plt.fill_between(Xtest_use[use],yf_new[use]-eb,yf_new[use]+eb, \
+    #        color = 'red', label = 'GP prediction')
+    plt.errorbar(Xtest_use[use], yf_new[use], yerr=eb,color='red',lw=3,label='Forecast')
+
     #plt.plot(Xtest_use,mean+3*sd, linestyle = '--', lw = 3, color = 'red')
     #plt.plot(Xtest_use,mean-3*sd, linestyle = '--', lw = 3, color = 'red')
 
 
     plt.plot(X,y_new, linestyle = 'solid', lw = 3, color = 'blue',label = 'Landsat VCI3M')
 
-    plt.xlabel('Days since 1/1/2000', size = 20)
+    plt.xlabel('Date', size = 20)
     plt.ylabel('VCI3M', size = 20)
     plt.tick_params(axis='both', which='major', labelsize=15)
-    x_ax = [5114,5479,5844,6210,6575,6940]
-    plt.xticks(x_ax, ('1/1/2014','1/1/2015', '1/1/2016', '1/1/2017','1/1/2018','1/1/2019'), size = 18)
-    plt.xlim(5000,7020)
+    x_ax = [6575,6665,6756,6848,6940,7030]
+    plt.xticks(x_ax, ('1/1/2018','1/4/2018','1/7/2018','1/10/2018','1/1/2019','1/4/2019'), size = 18)
+    plt.xlim(6575,7100)
     plt.ylim(0,100)
 
     plt.plot([0,7020],[50,50],color = 'black', lw = 3)
