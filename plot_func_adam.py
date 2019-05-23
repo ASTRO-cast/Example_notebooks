@@ -8,6 +8,7 @@ Created on Wed May 15 16:10:57 2019
 
 import numpy as np
 from matplotlib import pyplot as plt
+import glob
 
 def load(name):
     full_arr=np.load(name)
@@ -15,7 +16,16 @@ def load(name):
     VCI=full_arr[1,:]
     VCI3M=full_arr[2,:]
     
-    return T, VCI, VCI3M    
+    return T, VCI, VCI3M  
+
+def which_region():
+    for i in range(len(glob.glob("im_note/*MODIS.npy"))):
+        print('Choose '+str(i)+' for: '+glob.glob("im_note/*MODIS.npy")[i][8:-13])
+    num_reg = int(input("Please select a region: "))
+    region = glob.glob("im_note/*MODIS.npy")[num_reg]
+    print("You have choosen:", region[8:-13])
+    return(region)
+
 
 def plot_vci(X,y,index):
     plt.figure(figsize=(17, 7))

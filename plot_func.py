@@ -8,6 +8,7 @@ from pyro.optim import Adam
 import os
 torch.set_default_tensor_type(torch.DoubleTensor)
 torch.set_default_dtype(torch.double)
+import glob
 
 def load(name):
     full_arr = np.load(name)
@@ -17,6 +18,15 @@ def load(name):
     X=X[use]
     y=y[use]
     return X, y
+
+
+def which_region():
+    for i in range(len(glob.glob("im_note/*RBFP_an.npy"))):
+        print('Choose '+str(i)+' for: '+glob.glob("im_note/*RBFP_an.npy")[i][8:-12])
+    num_reg = int(input("Please select a region: "))
+    region = glob.glob("im_note/*RBFP_an.npy")[num_reg]
+    print("You have choosen:", region[8:-12])
+    return(region)
 
 def plot_vci(X,y):
     plt.figure(figsize=(17, 7))
@@ -29,7 +39,7 @@ def plot_vci(X,y):
     plt.xlim(5000,7000)
     plt.ylim(0,100)
 
-    plt.plot([0,7000],[50,50],color = 'black', lw = 3)
+    plt.plot([0,7000],[35,35],color = 'black', lw = 3)
     plt.show()
     
 def run_GP(X,y):
@@ -45,7 +55,7 @@ def run_GP(X,y):
     plus_arr = np.max(X)+np.array([7,14,21,28,35,42,49,56])
 
     X2 = (torch.from_numpy(X))
-    y2 = (torch.from_numpy(y-50))
+    y2 = (torch.from_numpy(y-np.mean(y)))
 
     Xtest_use = np.append(X,plus_arr)
     Xtest_use2 = (torch.from_numpy(Xtest_use))
@@ -71,7 +81,7 @@ def run_GP(X,y):
         mean, cov = gpr(Xtest_use2, full_cov=False, noiseless=False) 
 
     sd = cov.sqrt().detach().numpy()
-    mean = mean.detach().numpy()+50
+    mean = mean.detach().numpy()+np.mean(y)
     
     return mean, Xtest_use 
     
@@ -96,7 +106,7 @@ def plot_vci_fc(Xtest_use,mean,X,y):
     plt.xlim(6575,7100)
     plt.ylim(0,100)
 
-    plt.plot([0,7020],[50,50],color = 'black', lw = 3)
+    plt.plot([0,7020],[35,35],color = 'black', lw = 3)
     plt.plot([np.max(X),np.max(X)],[0,100],linestyle = '--',color = 'black', lw = 3,\
             label = 'day of last observation')
     plt.legend(prop={'size': 20}, loc = 3)
@@ -139,7 +149,7 @@ def plot_vci_fc3M(Xtest_use,mean,X,y):
     plt.xlim(6575,7100)
     plt.ylim(0,100)
 
-    plt.plot([0,7020],[50,50],color = 'black', lw = 3)
+    plt.plot([0,7020],[35,35],color = 'black', lw = 3)
     plt.plot([np.max(X),np.max(X)],[0,100],linestyle = '--',color = 'black', lw = 3,\
             label = 'day of last observation')
     
