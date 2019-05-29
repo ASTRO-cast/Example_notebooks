@@ -35,10 +35,10 @@ def plot_vci(X,y,index):
     plt.tick_params(axis='both', which='major', labelsize=15)
     x_ax = [5114,5479,5844,6210,6575,6940]
     plt.xticks(x_ax, ('1/1/2014','1/1/2015', '1/1/2016', '1/1/2017','1/1/2018','1/1/2019'), size = 18)
-    plt.xlim(5000,7000)
+    plt.xlim(5000,7200)
     plt.ylim(0,100)
 
-    plt.plot([0,7000],[35,35],color = 'black', lw = 3)
+    plt.plot([0,7200],[35,35],color = 'black', lw = 3)
     plt.show()
     
 def plot_vci_fc(X,y,Forecast,Sigma,index):
@@ -67,12 +67,12 @@ def plot_vci_fc(X,y,Forecast,Sigma,index):
     plt.xlabel('Date', size = 20)
     plt.ylabel(index, size = 20)
     plt.tick_params(axis='both', which='major', labelsize=15)
-    x_ax = [6575,6665,6756,6848,6940,7030]
-    plt.xticks(x_ax, ('1/1/2018','1/4/2018','1/7/2018','1/10/2018','1/1/2019','1/4/2019'), size = 18)
-    plt.xlim(6575,7100)
+    x_ax = [6575,6665,6756,6848,6940,7030,7121]
+    plt.xticks(x_ax, ('1/1/2018','1/4/2018','1/7/2018','1/10/2018','1/1/2019','1/4/2019','1/7/2019'), size = 18)
+    plt.xlim(6575,7200)
     plt.ylim(0,100)
 
-    plt.plot([0,7100],[35,35],color = 'black', lw = 3)
+    plt.plot([0,7200],[35,35],color = 'black', lw = 3)
     plt.plot([np.max(X),np.max(X)],[0,100],linestyle = '--',color = 'black', lw = 3,\
             label = 'day of last observation')
     plt.legend(prop={'size': 20},loc=1) 
