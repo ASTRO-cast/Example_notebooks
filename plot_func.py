@@ -9,23 +9,25 @@ import os
 torch.set_default_tensor_type(torch.DoubleTensor)
 torch.set_default_dtype(torch.double)
 import glob
+#import importlib
+#importlib.reload(module)
 
 def load(name):
     full_arr = np.load(name)
     X = full_arr[0,:] # days since 1/1/2000
     y = full_arr[2,:] # VCI
-    use = X < 6950
+    use = (full_arr[4,:] != 0) | (X < 7000)
     X=X[use]
     y=y[use]
     return X, y
 
 
 def which_region():
-    for i in range(len(glob.glob("im_note/*RBFP_an.npy"))):
-        print('Choose '+str(i)+' for: '+glob.glob("im_note/*RBFP_an.npy")[i][8:-12])
+    for i in range(len(glob.glob("im_note/*RBFP_an_trip.npy"))):
+        print('Choose '+str(i)+' for: '+glob.glob("im_note/*RBFP_an_trip.npy")[i][8:-17])
     num_reg = int(input("Please select a region: "))
-    region = glob.glob("im_note/*RBFP_an.npy")[num_reg]
-    print("You have choosen:", region[8:-12])
+    region = glob.glob("im_note/*RBFP_an_trip.npy")[num_reg]
+    print("You have choosen:", region[8:-17])
     return(region)
 
 def plot_vci(X,y):
@@ -36,10 +38,10 @@ def plot_vci(X,y):
     plt.tick_params(axis='both', which='major', labelsize=15)
     x_ax = [5114,5479,5844,6210,6575,6940]
     plt.xticks(x_ax, ('1/1/2014','1/1/2015', '1/1/2016', '1/1/2017','1/1/2018','1/1/2019'), size = 18)
-    plt.xlim(5000,7000)
+    plt.xlim(5000,7200)
     plt.ylim(0,100)
 
-    plt.plot([0,7000],[35,35],color = 'black', lw = 3)
+    plt.plot([0,8000],[35,35],color = 'black', lw = 3)
     plt.show()
     
 def run_GP(X,y):
@@ -101,12 +103,12 @@ def plot_vci_fc(Xtest_use,mean,X,y):
     plt.xlabel('Date', size = 20)
     plt.ylabel('weekly VCI', size = 20)
     plt.tick_params(axis='both', which='major', labelsize=15)
-    x_ax = [6575,6665,6756,6848,6940,7030]
-    plt.xticks(x_ax, ('1/1/2018','1/4/2018','1/7/2018','1/10/2018','1/1/2019','1/4/2019'), size = 18)
-    plt.xlim(6575,7100)
+    x_ax = [6575,6665,6756,6848,6940,7030,7121]
+    plt.xticks(x_ax, ('1/1/2018','1/4/2018','1/7/2018','1/10/2018','1/1/2019','1/4/2019','1/7/2019'), size = 18)
+    plt.xlim(6575,7150)
     plt.ylim(0,100)
 
-    plt.plot([0,7020],[35,35],color = 'black', lw = 3)
+    plt.plot([0,8000],[35,35],color = 'black', lw = 3)
     plt.plot([np.max(X),np.max(X)],[0,100],linestyle = '--',color = 'black', lw = 3,\
             label = 'day of last observation')
     plt.legend(prop={'size': 20}, loc = 3)
@@ -144,12 +146,12 @@ def plot_vci_fc3M(Xtest_use,mean,X,y):
     plt.xlabel('Date', size = 20)
     plt.ylabel('VCI3M', size = 20)
     plt.tick_params(axis='both', which='major', labelsize=15)
-    x_ax = [6575,6665,6756,6848,6940,7030]
-    plt.xticks(x_ax, ('1/1/2018','1/4/2018','1/7/2018','1/10/2018','1/1/2019','1/4/2019'), size = 18)
-    plt.xlim(6575,7100)
+    x_ax = [6575,6665,6756,6848,6940,7030,7121]
+    plt.xticks(x_ax, ('1/1/2018','1/4/2018','1/7/2018','1/10/2018','1/1/2019','1/4/2019','1/7/2019'), size = 18)
+    plt.xlim(6575,7150)
     plt.ylim(0,100)
 
-    plt.plot([0,7020],[35,35],color = 'black', lw = 3)
+    plt.plot([0,8000],[35,35],color = 'black', lw = 3)
     plt.plot([np.max(X),np.max(X)],[0,100],linestyle = '--',color = 'black', lw = 3,\
             label = 'day of last observation')
     
