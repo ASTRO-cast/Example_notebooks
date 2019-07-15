@@ -30,6 +30,7 @@ def which_region():
 def plot_vci(X,y,index):
     plt.figure(figsize=(17, 7))
     plt.plot(X,y, linestyle = 'solid', lw = 3, color = 'blue')
+    plt.errorbar(Xtest_use,mean,rms, color = 'red')
     plt.xlabel('Date', size = 20)
     plt.ylabel(index, size = 20)
     plt.tick_params(axis='both', which='major', labelsize=15)
