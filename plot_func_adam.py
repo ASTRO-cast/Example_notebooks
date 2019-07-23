@@ -80,10 +80,10 @@ def plot_vci_fc(X,y,Forecast,Sigma,index):
     plt.show()
     
     print('Forecast:')
-    print('VCI3M 4 weeks after last observation =',"%.0f" % Forecast[3])
-    if y[n-1]<Forecast[3]:
+    print('VCI3M 4 weeks after last observation =',"%.0f" % Forecast[4])
+    if y[n-1]<Forecast[4]:
         print('Trend = Upward')
-    if y[n-1]>Forecast[3]:
+    if y[n-1]>Forecast[4]:
         print('Trend = Downward')
     
 def astro_regress_one(Y,X,nlags):
