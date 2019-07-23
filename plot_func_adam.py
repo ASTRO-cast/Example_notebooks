@@ -30,7 +30,7 @@ def which_region():
 def plot_vci(X,y,index):
     plt.figure(figsize=(17, 7))
     plt.plot(X,y, linestyle = 'solid', lw = 3, color = 'blue')
-    plt.errorbar(Xtest_use,mean,rms, color = 'red')
+    #plt.errorbar(Xtest_use,mean,rms, color = 'red')
     plt.xlabel('Date', size = 20)
     plt.ylabel(index, size = 20)
     plt.tick_params(axis='both', which='major', labelsize=15)
@@ -80,8 +80,11 @@ def plot_vci_fc(X,y,Forecast,Sigma,index):
     plt.show()
     
     print('Forecast:')
-    for i in range(1,nw):
-        print('weeks ahead =',i,',',index,'=',"%.0f" % Forecast[i])
+    print('VCI3M 4 weeks after last observation =',"%.0f" % Forecast[3])
+    if y[n-1]<Forecast[3]:
+        print('Trend = Upward')
+    if y[n-1]>Forecast[3]:
+        print('Trend = Downward')
     
 def astro_regress_one(Y,X,nlags):
     
